@@ -7,7 +7,7 @@ RUN apt-get update && \
     apt-get install -y build-essential wget cmake libx11-dev libopenblas-dev unzip && \
     rm -rf /var/lib/apt/lists/*
 
-ARG DLIB_BRANCH=v19.24
+ARG DLIB_BRANCH=v19.22
 RUN wget -c -q https://github.com/davisking/dlib/archive/$DLIB_BRANCH.tar.gz \
 
     && tar xf $DLIB_BRANCH.tar.gz \
