@@ -1,4 +1,4 @@
-FROM nextcloud:stable-fpm as builder
+FROM nextcloud:stable-apache as builder
 
 # Build and install dlib on builder
 
@@ -53,7 +53,7 @@ RUN git clone https://github.com/matiasdelellis/pdlib-min-test-suite.git \
 # If pass the tests, we are able to create the final image.
 #
 
-FROM nextcloud:stable-fpm
+FROM nextcloud:stable-apache
 
 # Install dependencies to image
 
