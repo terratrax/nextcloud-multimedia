@@ -101,17 +101,3 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 RUN pip3 install youtube-dl
-
-#ARG FR_BRANCH=v0.8.2
-#RUN wget -c -q -O facerecognition https://github.com/matiasdelellis/facerecognition/archive/$FR_BRANCH.zip \
-#    && unzip facerecognition \
-#    && rm facerecognition \
-#    && mv facerecognition-*  /usr/src/nextcloud/facerecognition \
-#    && cd /usr/src/nextcloud/facerecognition \
-#    && make
-
-#ARG OC_BRANCH=1.7.11
-#RUN wget -c -q -O ocdownloader https://github.com/e-alfred/ocdownloader/archive/master.zip \
-#    && unzip ocdownloader \
-#    && rm ocdownloader \
-#    && mv ocdownloader*  /usr/src/nextcloud/ocdownloader
