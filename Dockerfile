@@ -1,4 +1,4 @@
-FROM nextcloud:26-apache as builder
+FROM nextcloud:27.1.4-apache as builder
 
 # Build and install dlib on builder
 
@@ -15,7 +15,7 @@ RUN wget -c -q https://github.com/davisking/dlib/archive/$DLIB_BRANCH.tar.gz \
     && cd dlib/dlib \
     && mkdir build \
     && cd build \
-    && cmake -DBUILD_SHARED_LIBS=ON --config Release .. \
+    && cmake -S .. -DBUILD_SHARED_LIBS=ON  -D CMAKE_BUILD_TYPE=Release \
     && make \
     && make install
 
@@ -30,7 +30,7 @@ RUN wget -c -q https://github.com/matiasdelellis/pdlib/archive/$PDLIB_BRANCH.zip
     && phpize \
     && ./configure \
     && make \
-    && make install
+    && make install 
 
 # Enable PDlib on builder
 
@@ -38,7 +38,7 @@ RUN wget -c -q https://github.com/matiasdelellis/pdlib/archive/$PDLIB_BRANCH.zip
 #RUN php -i | grep "Scan this dir for additional .ini files"
 RUN echo "extension=pdlib.so" > /usr/local/etc/php/conf.d/pdlib.ini
 
-# Test PDlib instalation on builer
+# Test PDlib instalation on builder
 
 RUN apt-get update && \
 
@@ -53,21 +53,24 @@ RUN git clone https://github.com/matiasdelellis/pdlib-min-test-suite.git \
 # If pass the tests, we are able to create the final image.
 #
 
-FROM nextcloud:26-apache
+FROM nextcloud:27.1.4-apache
 
 # Install dependencies to image
 
 RUN apt-get update ; \
 
-    apt-get install -y libopenblas-base
+	apt-cache search openblas ; \
+
+    apt-get install -y libopenblas-dev
 
 # Install dlib and PDlib to image
 
 COPY --from=builder /usr/local/lib/libdlib.so* /usr/local/lib/
 
 # If is necesary take the php extention folder uncommenting the next line
+
 RUN php -i | grep extension_dir
-COPY --from=builder /usr/local/lib/php/extensions/no-debug-non-zts-20210902/pdlib.so /usr/local/lib/php/extensions/no-debug-non-zts-20210902/
+COPY --from=builder /usr/local/lib/php/extensions/no-debug-non-zts-20220829/pdlib.so /usr/local/lib/php/extensions/no-debug-non-zts-20220829/
 
 # Enable PDlib on final image
 
