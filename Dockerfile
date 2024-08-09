@@ -1,4 +1,4 @@
-FROM nextcloud:29.0.2-apache as builder
+FROM nextcloud:29.0.4-apache as builder
 
 # Build and install dlib on builder
 
@@ -49,7 +49,7 @@ RUN git clone https://github.com/matiasdelellis/pdlib-min-test-suite.git \
 # If we pass the tests, we are able to create the final image.
 #
 
-FROM nextcloud:29.0.2-apache
+FROM nextcloud:29.0.4-apache
 
 # Install dependencies to image
 
