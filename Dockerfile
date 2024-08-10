@@ -1,10 +1,10 @@
 FROM nextcloud:29.0.4-apache as builder
 
-# Build and install dlib on builder
+# Build and install libraries on builder
 
 RUN apt-get update && \
     apt-get install ffmpeg -y && \
-    apt-get install -y build-essential wget cmake libx11-dev libopenblas-dev unzip && \
+    apt-get install -y build-essential wget cmake libx11-dev libopenblas-dev nodejs unzip && \
     rm -rf /var/lib/apt/lists/*
 
 ARG DLIB_BRANCH=v19.24
@@ -93,3 +93,4 @@ RUN apt-get update && \
     apt-get install -y wget unzip nodejs npm aria2 python3-pip && \
     rm -rf /var/lib/apt/lists/*
 
+RUN pip install tensorflow --break-system-packages
