@@ -1,4 +1,4 @@
-FROM nextcloud:30.0.5-apache AS builder
+FROM nextcloud:31.0.4-apache AS builder
 
 # Build and install libraries on builder
 
@@ -20,7 +20,7 @@ RUN wget -c -q https://github.com/davisking/dlib/archive/$DLIB_BRANCH.tar.gz \
 
 # Build and install PDLib on builder
 
-ARG PDLIB_BRANCH=master
+ARG PDLIB_BRANCH=v1.1.0
 RUN wget -c -q https://github.com/matiasdelellis/pdlib/archive/$PDLIB_BRANCH.zip \
     && unzip $PDLIB_BRANCH \
     && mv pdlib-* pdlib \
@@ -32,11 +32,11 @@ RUN wget -c -q https://github.com/matiasdelellis/pdlib/archive/$PDLIB_BRANCH.zip
 
 # Enable PDlib on builder
 
-# If necesary take the php settings folder uncommenting the next line
+# If necessary take the php settings folder uncommenting the next line
 #RUN php -i | grep "Scan this dir for additional .ini files"
 RUN echo "extension=pdlib.so" > /usr/local/etc/php/conf.d/pdlib.ini
 
-# Test PDlib instalation on builer
+# Test PDlib installation on builder
 
 RUN apt-get update && \
     apt-get install -y git && \
@@ -49,7 +49,7 @@ RUN git clone https://github.com/matiasdelellis/pdlib-min-test-suite.git \
 # If we pass the tests, we are able to create the final image.
 #
 
-FROM nextcloud:30.0.5-apache
+FROM nextcloud:31.0.4-apache
 
 # Install dependencies to image
 
@@ -62,7 +62,7 @@ COPY --from=builder /usr/local/lib/libdlib.so* /usr/local/lib/
 
 # If is necesary take the php extention folder uncommenting the next line
 RUN php -i | grep extension_dir
-COPY --from=builder /usr/local/lib/php/extensions/no-debug-non-zts-20220829/pdlib.so /usr/local/lib/php/extensions/no-debug-non-zts-20220829/
+COPY --from=builder /usr/local/lib/php/extensions/no-debug-non-zts-20230831/pdlib.so /usr/local/lib/php/extensions/no-debug-non-zts-20230831/
 
 # Enable PDlib on final image
 
