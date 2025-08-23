@@ -1,4 +1,4 @@
-FROM nextcloud:31.0.4-apache AS builder
+FROM nextcloud:31.0.8-apache AS builder
 
 # Build and install libraries on builder
 
