@@ -1,10 +1,16 @@
 # nextcloud-multimedia
 
-Dockerfile for building the latest Nextcloud apache image with additional packages and libraries built in:
+The official Nextcloud apache image plus what Nextcloud Memories needs and the official base lacks:
 
-- ffmpeg
-- pdlib
-- bzip 
+- ffmpeg / ffprobe
+- bz2 PHP extension
+- PHP `memory_limit` raised to 2048M (override with `PHP_MEMORY_LIMIT`)
 
-This image will permit Nextcloud Memories to handle videos and install facial recognition plugins.
+Works with Memories and Recognize. Recognize downloads its own Node, tfjs-node and ffmpeg when the app is installed, so nothing for it needs to be baked into the image.
 
+## Build
+
+```bash
+docker build -t nextcloud-multimedia .
+docker build --build-arg NEXTCLOUD_VERSION=34.0.4 -t nextcloud-multimedia .
+```
