@@ -1,4 +1,4 @@
-ARG NEXTCLOUD_VERSION=35.0.1
+ARG NEXTCLOUD_VERSION=35.0.2
 FROM nextcloud:${NEXTCLOUD_VERSION}-apache
 
 # ffmpeg (+ffprobe): required by Memories for video transcoding / previews.
